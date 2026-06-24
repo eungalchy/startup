@@ -16,9 +16,9 @@ This app, "Spender," is a personal expense tracking app that makes managing mone
 
 ### Design
 
-![Login Page](spender1.png)
-![Dashboard Page](spender2.png)
-![Group Page](spender3.png)
+![Login Page](spender - 1.png)
+![Dashboard Page](spender - 2.png)
+![Group Page](spender - 3.png)
 
 User log in, add expensesm, view a dashboard showing spending. Group members see updates when someone adds a new expense.
 

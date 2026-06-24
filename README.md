@@ -1,8 +1,8 @@
-# Your startup name here
+# Spender
 
 [My Notes](notes.md)
 
-A brief description of the application here. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+This app "Spender" is a personal expense tracking system that makes managing the money effortless like by giving notice how much you are spending and earning.
 
 > [!NOTE]
 > This is a template for your startup application. You must modify this `README.md` file for each phase of your development. You only need to fill in the section for each deliverable when that deliverable is submitted in Canvas. Without completing the section for a deliverable, the TA will not know what to look for when grading your submission. Feel free to add additional information to each deliverable description, but make sure you at least have the list of rubric items and a description of what you did for each item.
@@ -12,37 +12,44 @@ A brief description of the application here. Lorem ipsum dolor sit amet, consect
 
 ### Elevator pitch
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+This app, "Spender," is a personal expense tracking app that makes managing money efortless like by giving notice of how much you are spending and earning. It can be splitting money with someone else, or this can be tracking a monthly budget. Spender lets us log expenses and view amounts in our preferred currency using live exchange rates. We do not have to confuse what we should do with money right now. Spender is the one that makes us focus on other things besides money.
 
 ### Design
 
-![Design image](placeholder.png)
+![Login Page](spender1.png)
+![Dashboard Page](spender2.png)
+![Group Page](spender3.png)
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+User log in, add expensesm, view a dashboard showing spending. Group members see updates when someone adds a new expense.
 
 ```mermaid
 sequenceDiagram
-    actor You
-    actor Website
-    You->>Website: Replace this with your design
+    actor User
+    actor Server
+    User->>Server: Sign in
+    Server-->>User: Auth token
+    User->>Server: Add expense
+    Server-->>User: Updated expense list
+    Server-->>User: WebSocket: notify group members
 ```
 
 ### Key features
 
-- Describe your key feature
-- Describe your key feature
-- Describe your key feature
+- Log and categorize personal expenses
+- Split moeny with group members
+- View currency exchange rates through third-party API
+- Secure user authentication
 
 ### Technologies
 
 I am going to use the required technologies in the following ways.
 
-- **HTML** - Description here
-- **CSS** - Description here
-- **React** - Description here
-- **Service** - Description here
-- **DB/Login** - Description here
-- **WebSocket** - Description here
+- **HTML** - Login page, dashboard page, group expense page with HTML structure and navigation links.
+- **CSS** - Clean layout, good color contrast, animations for expense updates.
+- **React** - Single page app with components for login, expense dashboard, group view, expense form. React Router handles navigation between views.
+- **Service** - Backend endpoints for adding, retrieving expenses, user authentication, and fetching live exchange rates from the ExchangeRate API
+- **DB/Login** - Store user credentials and expense data in MongoDB. Users must be authenticated to access their data.
+- **WebSocket** - when a group member adds an expense, all members will receive notification and update expense list.
 
 ## 🚀 Specification Deliverable
 
@@ -51,12 +58,12 @@ I am going to use the required technologies in the following ways.
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] I completed the prerequisites for this deliverable (Git commit requirement)
-- [ ] Proper use of Markdown
-- [ ] A concise and compelling elevator pitch
-- [ ] Description of key features
-- [ ] Description of how you will use each technology
-- [ ] One or more rough sketches of your application. Images must be embedded in this file using Markdown image references.
+- [x] I completed the prerequisites for this deliverable (Git commit requirement)
+- [x] Proper use of Markdown
+- [x] A concise and compelling elevator pitch
+- [x] Description of key features
+- [x] Description of how you will use each technology
+- [x] One or more rough sketches of your application. Images must be embedded in this file using Markdown image references.
 
 ## 🚀 AWS deliverable
 

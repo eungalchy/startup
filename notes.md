@@ -13,7 +13,8 @@ This file represents what I have learned about web programming.
 
 ## AWS
 
-Interesting things I have learned about AWS
+- public ip: 107.22.210.134
+- SSH command: ssh -i ~/Desktop/startup/production.pem ubuntu@107.22.210.134
 
 ## HTML
 

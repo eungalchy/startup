@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spender - Dashboard</title>
+</head>
+<body>
+    <header>
+        <h1>Spender</h1>
+        <nav>
+            <a href="index.html">Login</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="group.html">Group</a>
+        </nav>
+    </header>
+    <main>
+        <h2>Dashboard</h2>
+        <p>Welcome, <span id="username">User</span>!</p>
+
+        <h3>Your Expenses</h3>
+        <table>
+            <tr>
+                <th>Category</th>
+                <th>Amount</th>
+                <th>Date</th>
+            </tr>
+            <tr>
+                <td>Food</td>
+                <td>$12.00</td>
+                <td>2026-06-28</td>
+            </tr>
+            <tr>
+                <td>Transport</td>
+                <td>$5.00</td>
+                <td>2026-06-27</td>
+        </table>
+
+        <h3>Exchange Rates</h3>
+        <p>1 USD = <span id="exchange-rate">loading...</span> KRW</p>
+
+        <h3>Updates</h3>
+        <p id="updates">Waiting for the group activities...</p>
+
+        <button>+ Add Expense</button>
+    </main>
+
+    <footer>
+        <p>Made by Jinho Lee</p>
+        <a href="https://github.com/eungalchy/startup">GitHub</a>
+    </footer>
+</body>
+</html>

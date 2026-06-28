@@ -77,16 +77,16 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] I completed the prerequisites for this deliverable (Simon deployed, GitHub link, Git commits)
-- [ ] **HTML pages** - I did not complete this part of the deliverable.
-- [ ] **Proper HTML element usage** - I did not complete this part of the deliverable.
-- [ ] **Links** - I did not complete this part of the deliverable.
-- [ ] **Text** - I did not complete this part of the deliverable.
-- [ ] **3rd party API placeholder** - I did not complete this part of the deliverable.
-- [ ] **Images** - I did not complete this part of the deliverable.
-- [ ] **Login placeholder** - I did not complete this part of the deliverable.
-- [ ] **DB data placeholder** - I did not complete this part of the deliverable.
-- [ ] **WebSocket placeholder** - I did not complete this part of the deliverable.
+- [x] I completed the prerequisites for this deliverable (Simon deployed, GitHub link, Git commits)
+- [x] **HTML pages** - created files such as index.html, dashboard.html, group.html
+- [x] **Proper HTML element usage** - used body nav main header footer tags
+- [x] **Links** - navigation links on all pages
+- [x] **Text** - added text contents on all pages
+- [x] **3rd party API placeholder** - Exchange rate placeholder in dashboard.html
+- [x] **Images** - placeholder images included
+- [x] **Login placeholder** - login form with username and password in index.html
+- [x] **DB data placeholder** - expense table in dashboard.html
+- [x] **WebSocket placeholder** - live update section in dashboard.html and group.html
 
 ## 🚀 CSS deliverable
 

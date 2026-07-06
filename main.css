@@ -104,7 +104,7 @@ tr:hover {
 }
 
 img {
-    width: 400px;
+    max-width: 100%;
     height: auto;
     display:block;
     margin: 0 auto;

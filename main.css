@@ -42,8 +42,6 @@ footer {
     padding: 1rem;
     background-color: #3949AB;
     color: white;
-    position: fixed;
-    bottom: 0;
     width: 100%;
 }
 
@@ -110,4 +108,22 @@ img {
     height: auto;
     display:block;
     margin: 0 auto;
+}
+
+.card {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
+}
+
+#exchange-rate {
+    font-weight: bold;
+    color:#283593;
+}
+
+#live-updates {
+    background-color: #e8eaf6;
+    font-style: italic;
 }

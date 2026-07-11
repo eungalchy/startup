@@ -1,16 +1,150 @@
-# React + Vite
+# Spender
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[My Notes](notes.md)
 
-Currently, two official plugins are available:
+This app "Spender" is a personal expense tracking system that makes managing the money effortless like by giving notice how much you are spending and earning.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+> [!NOTE]
+> This is a template for your startup application. You must modify this `README.md` file for each phase of your development. You only need to fill in the section for each deliverable when that deliverable is submitted in Canvas. Without completing the section for a deliverable, the TA will not know what to look for when grading your submission. Feel free to add additional information to each deliverable description, but make sure you at least have the list of rubric items and a description of what you did for each item.
 
-## React Compiler
+> [!NOTE]
+> If you are not familiar with Markdown then you should review the [documentation](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax) before continuing.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Elevator pitch
 
-## Expanding the ESLint configuration
+This app, "Spender," is a personal expense tracking app that makes managing money efortless like by giving notice of how much you are spending and earning. It can be splitting money with someone else, or this can be tracking a monthly budget. Spender lets us log expenses and view amounts in our preferred currency using live exchange rates. We do not have to confuse what we should do with money right now. Spender is the one that makes us focus on other things besides money.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Design
+
+![Login Page](spender1.png)
+![Dashboard Page](spender2.png)
+![Group Page](spender3.png)
+
+User log in, add expensesm, view a dashboard showing spending. Group members see updates when someone adds a new expense.
+
+```mermaid
+sequenceDiagram
+    actor User
+    actor Server
+    User->>Server: Sign in
+    Server-->>User: Auth token
+    User->>Server: Add expense
+    Server-->>User: Updated expense list
+    Server-->>User: WebSocket: notify group members
+```
+
+### Key features
+
+- Log and categorize personal expenses
+- Split moeny with group members
+- View currency exchange rates through third-party API
+- Secure user authentication
+
+### Technologies
+
+I am going to use the required technologies in the following ways.
+
+- **HTML** - Login page, dashboard page, group expense page with HTML structure and navigation links.
+- **CSS** - Clean layout, good color contrast, animations for expense updates.
+- **React** - Single page app with components for login, expense dashboard, group view, expense form. React Router handles navigation between views.
+- **Service** - Backend endpoints for adding, retrieving expenses, user authentication, and fetching live exchange rates from the ExchangeRate API
+- **DB/Login** - Store user credentials and expense data in MongoDB. Users must be authenticated to access their data.
+- **WebSocket** - when a group member adds an expense, all members will receive notification and update expense list.
+
+## 🚀 Specification Deliverable
+
+> [!NOTE]
+> Fill in this sections as the submission artifact for this deliverable. You can refer to this [example](https://github.com/webprogramming260/startup-example/blob/main/README.md) for inspiration.
+
+For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
+
+- [x] I completed the prerequisites for this deliverable (Git commit requirement)
+- [x] Proper use of Markdown
+- [x] A concise and compelling elevator pitch
+- [x] Description of key features
+- [x] Description of how you will use each technology
+- [x] One or more rough sketches of your application. Images must be embedded in this file using Markdown image references.
+
+## 🚀 AWS deliverable
+
+For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
+
+- [x] **Rented EC2 server** - I completed this part of the deliverable.
+- [x] **Leased domain name** - I completed this part of the deliverable.
+- [x] **Server accessible** from my domain: [https://startup.spender.click](https://startup.spender.click) - I completed this part of the deliverable.
+
+## 🚀 HTML deliverable
+
+For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
+
+- [x] I completed the prerequisites for this deliverable (Simon deployed, GitHub link, Git commits)
+- [x] **HTML pages** - created files such as index.html, dashboard.html, group.html
+- [x] **Proper HTML element usage** - used body nav main header footer tags
+- [x] **Links** - navigation links on all pages
+- [x] **Text** - added text contents on all pages
+- [x] **3rd party API placeholder** - Exchange rate placeholder in dashboard.html
+- [x] **Images** - placeholder images included
+- [x] **Login placeholder** - login form with username and password in index.html
+- [x] **DB data placeholder** - expense table in dashboard.html
+- [x] **WebSocket placeholder** - live update section in dashboard.html and group.html
+
+## 🚀 CSS deliverable
+
+For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
+
+- [x] I completed the prerequisites for this deliverable (Simon deployed, GitHub link, Git commits)
+- [x] **Visually appealing colors and layout. No overflowing elements.** - Used navy color scheme with clean layout
+- [x] **Use of a CSS framework** - I used bootstrap 5.3
+- [x] **All visual elements styled using CSS** - I styled and organized header, nav, main, footer, table, form, buttons, and cards
+- [x] **Responsive to window resizing using flexbox and/or grid display** - I used flexbox for header layout
+- [x] **Use of a imported font** - I imported font from google fonts
+- [x] **Use of different types of selectors including element, class, ID, and pseudo selectors** - I used element, class, ID, and pseudo selectors
+
+## 🚀 React part 1: Routing deliverable
+
+For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
+
+- [x] I completed the prerequisites for this deliverable (Simon deployed, GitHub link, Git commits)
+- [x] **Bundled using Vite** - Installed and configured vite for startup app
+- [x] **Components** - Created Login, Dashboard, Group components
+- [x] **Router** - Implemented react router with navlink
+
+## 🚀 React part 2: Reactivity deliverable
+
+For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
+
+- [ ] I completed the prerequisites for this deliverable (Simon deployed, GitHub link, Git commits)
+- [ ] **All functionality implemented or mocked out** - I did not complete this part of the deliverable.
+- [ ] **Hooks** - I did not complete this part of the deliverable.
+
+## 🚀 Service deliverable
+
+For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
+
+- [ ] I completed the prerequisites for this deliverable (Simon deployed, GitHub link, Git commits)
+- [ ] **Node.js/Express HTTP service** - I did not complete this part of the deliverable.
+- [ ] **Static middleware for frontend** - I did not complete this part of the deliverable.
+- [ ] **Calls to third party endpoints** - I did not complete this part of the deliverable.
+- [ ] **Backend service endpoints** - I did not complete this part of the deliverable.
+- [ ] **Frontend calls service endpoints** - I did not complete this part of the deliverable.
+- [ ] **Supports registration, login, logout, and restricted endpoint** - I did not complete this part of the deliverable.
+- [ ] **Uses BCrypt to hash passwords** - I did not complete this part of the deliverable.
+
+## 🚀 DB deliverable
+
+For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
+
+- [ ] I completed the prerequisites for this deliverable (Simon deployed, GitHub link, Git commits)
+- [ ] **Stores data in MongoDB** - I did not complete this part of the deliverable.
+- [ ] **Stores credentials in MongoDB** - I did not complete this part of the deliverable.
+
+## 🚀 WebSocket deliverable
+
+For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
+
+- [ ] I completed the prerequisites for this deliverable (Simon deployed, GitHub link, Git commits)
+- [ ] **Backend listens for WebSocket connection** - I did not complete this part of the deliverable.
+- [ ] **Frontend makes WebSocket connection** - I did not complete this part of the deliverable.
+- [ ] **Data sent over WebSocket connection** - I did not complete this part of the deliverable.
+- [ ] **WebSocket data displayed** - I did not complete this part of the deliverable.
+- [ ] **Application is fully functional** - I did not complete this part of the deliverable.

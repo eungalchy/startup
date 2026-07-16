@@ -1,46 +1,96 @@
+import { useState, useEffect } from 'react';
+
 export function Dashboard() {
-    return (
-        <main className="container">
-            <h1>Dashboard</h1>
-            <img src="spender_logo.png" alt="Spender Logo" />
-            <p>Welcome, <span id="username">User</span>!</p>
+  const username = localStorage.getItem('username') || 'User';
+  const [expenses, setExpenses] = useState([
+    { category: 'Food', amount: '$12.00', date: '2026-06-28' },
+    { category: 'Transportation', amount: '$5.00', date: '2026-06-27' },
+  ]);
+  const [exchangeRate, setExchangeRate] = useState('loading...');
+  const [liveUpdate, setLiveUpdate] = useState('Waiting for group activities...');
+  const [newCategory, setNewCategory] = useState('');
+  const [newAmount, setNewAmount] = useState('');
 
-            <div className="card">
-                <h2>Your Expenses</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Category</th>
-                            <th>Amount</th>
-                            <th>Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Food</td>
-                            <td>$12.00</td>
-                            <td>2026-06-28</td>
-                        </tr>
-                        <tr>
-                            <td>Transportation</td>
-                            <td>$5.00</td>
-                            <td>2026-06-27</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+  useEffect(() => {
+    // Mock exchange rate - will be replaced with API call
+    setExchangeRate('1,380');
 
-            <div className="card">
-                <h3>Exchange Rates</h3>
-                <p>1 USD = <span id="exchange-rate">loading...</span> KRW</p>
-            </div>
+    // Mock WebSocket - will be replaced with real WebSocket
+    const interval = setInterval(() => {
+      const users = ['Alice', 'Bob', 'Charlie'];
+      const randomUser = users[Math.floor(Math.random() * users.length)];
+      setLiveUpdate(`${randomUser} added a new expense!`);
+    }, 5000);
 
-            <div className="card">
-                <h3>updates</h3>
-                <p id="updates">Waiting for the group activities...</p>
-            </div>
+    return () => clearInterval(interval);
+  }, []);
 
-            <button className="btn btn-primary">+ Add Expense</button>
-        </main>
-    );
+  function addExpense(e) {
+    e.preventDefault();
+    if (newCategory && newAmount) {
+      const today = new Date().toISOString().split('T')[0];
+      setExpenses([...expenses, { category: newCategory, amount: `$${newAmount}`, date: today }]);
+      setNewCategory('');
+      setNewAmount('');
+    }
+  }
+
+  return (
+    <main className="container">
+      <h1>Dashboard</h1>
+      <img src="spender_logo.png" alt="Spender Logo" />
+      <p>Welcome, <span>{username}</span>!</p>
+
+      <div className="card">
+        <h2>Your Expenses</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Category</th>
+              <th>Amount</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {expenses.map((expense, index) => (
+              <tr key={index}>
+                <td>{expense.category}</td>
+                <td>{expense.amount}</td>
+                <td>{expense.date}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div className="card">
+        <h3>Add Expense</h3>
+        <form onSubmit={addExpense}>
+          <input
+            type="text"
+            placeholder="Category"
+            value={newCategory}
+            onChange={(e) => setNewCategory(e.target.value)}
+          />
+          <input
+            type="number"
+            placeholder="Amount"
+            value={newAmount}
+            onChange={(e) => setNewAmount(e.target.value)}
+          />
+          <button type="submit" className="btn btn-primary">+ Add Expense</button>
+        </form>
+      </div>
+
+      <div className="card">
+        <h3>Exchange Rates</h3>
+        <p>1 USD = <span>{exchangeRate}</span> KRW</p>
+      </div>
+
+      <div className="card">
+        <h3>Updates</h3>
+        <p>{liveUpdate}</p>
+      </div>
+    </main>
+  );
 }

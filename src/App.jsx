@@ -4,6 +4,7 @@ import { Dashboard } from "./dashboard/Dashboard";
 import { Group } from "./group/Group";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import { Register } from "./register/Register";
 
 function App() {
     return (
@@ -12,6 +13,7 @@ function App() {
               <h1>Spender</h1>
               <nav>
                 <NavLink to="/">Login</NavLink>
+                <NavLink to="/register">Register</NavLink>
                 <NavLink to="/dashboard">Dashboard</NavLink>
                 <NavLink to="/group">Group</NavLink>
               </nav>
@@ -19,6 +21,7 @@ function App() {
 
             <Routes>
               <Route path="/" element={<Login />} />
+              <Route path="/register" element={<Register />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/group" element={<Group />} />
             </Routes>

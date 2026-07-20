@@ -66,6 +66,7 @@ export function Dashboard() {
             ))}
           </tbody>
         </table>
+        <p><strong>Total: ${expenses.reduce((sum, expense) => sum + parseFloat(expense.amount.slice(1)), 0).toFixed(2)}</strong></p>
       </div>
 
       <div className="card">

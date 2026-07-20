@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 
-export function Login() {
+export function Login({ onLogin }) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
@@ -9,6 +9,7 @@ export function Login() {
     function handleLogin(e) {
         e.preventDefault();
         localStorage.setItem('username', username);
+        onLogin();
         navigate('/dashboard');
     }
 

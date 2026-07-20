@@ -51,6 +51,7 @@ export function Dashboard() {
               <th>Category</th>
               <th>Amount</th>
               <th>Date</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -59,9 +60,17 @@ export function Dashboard() {
                 <td>{expense.category}</td>
                 <td>{expense.amount}</td>
                 <td>{expense.date}</td>
+                <td>
+                  <button className="btn btn-danger" onClick={() => {
+                    const updatedExpenses = expenses.filter((_, i) => i !== index);
+                    setExpenses(updatedExpenses);
+                    localStorage.setItem('expenses', JSON.stringify(updatedExpenses));
+                  }}>Delete</button>
+                </td>
               </tr>
             ))}
           </tbody>
+
         </table>
         <p><strong>Total: ${expenses.reduce((sum, expense) => sum + parseFloat(expense.amount.slice(1)), 0).toFixed(2)}</strong></p>
       </div>

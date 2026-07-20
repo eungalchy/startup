@@ -2,10 +2,13 @@ import { useState, useEffect } from 'react';
 
 export function Dashboard() {
   const username = localStorage.getItem('username') || 'User';
-  const [expenses, setExpenses] = useState([
+  const [expenses, setExpenses] = useState(() => {
+    const saved = localStorage.getItem('expenses');
+    return saved ? JSON.parse(saved) : [
     { category: 'Food', amount: '$12.00', date: '2026-06-28' },
     { category: 'Transportation', amount: '$5.00', date: '2026-06-27' },
-  ]);
+    ];
+});
   const [exchangeRate, setExchangeRate] = useState('loading...');
   const [liveUpdate, setLiveUpdate] = useState('Waiting for group activities...');
   const [newCategory, setNewCategory] = useState('');
@@ -29,7 +32,9 @@ export function Dashboard() {
     e.preventDefault();
     if (newCategory && newAmount) {
       const today = new Date().toISOString().split('T')[0];
-      setExpenses([...expenses, { category: newCategory, amount: `$${newAmount}`, date: today }]);
+      const newExpense = [...expenses, { category: newCategory, amount: `$${newAmount}`, date: today }];
+      setExpenses(newExpense);
+      localStorage.setItem('expenses', JSON.stringify(newExpense));
       setNewCategory('');
       setNewAmount('');
     }

@@ -4,10 +4,7 @@ export function Dashboard() {
   const username = localStorage.getItem('username') || 'User';
   const [expenses, setExpenses] = useState(() => {
     const saved = localStorage.getItem('expenses');
-    return saved ? JSON.parse(saved) : [
-    { category: 'Food', amount: '$12.00', date: '2026-06-28' },
-    { category: 'Transportation', amount: '$5.00', date: '2026-06-27' },
-    ];
+    return saved ? JSON.parse(saved) : [];
 });
   const [exchangeRate, setExchangeRate] = useState('loading...');
   const [liveUpdate, setLiveUpdate] = useState('Waiting for group activities...');

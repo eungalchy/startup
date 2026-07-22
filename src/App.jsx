@@ -14,39 +14,40 @@ function App() {
     localStorage.removeItem('username');
     setIsLoggedIn(false);
   }
-    return (
-        <BrowserRouter>
-            <header>
-              <h1>Spender</h1>
-              <nav>
-                {isLoggedIn ? (
-                  <>
-                    <a onClick={handleLogout} style={{cursor: 'pointer'}}>Logout</a>
-                    <NavLink to="/dashboard">Dashboard</NavLink>
-                    <NavLink to="/group">Group</NavLink>
-                  </>
-                ) : (
-                  <>
-                    <NavLink to="/">Login</NavLink>
-                    <NavLink to="/register">Register</NavLink>
-                  </>
-                )}
-              </nav>
-            </header>
+  return (
+    <BrowserRouter>
+      <header>
+        <h1>Spender</h1>
+        <nav>
+          {isLoggedIn ? (
+            <>
+              <a onClick={handleLogout} style={{ cursor: 'pointer' }}>Logout</a>
+              <NavLink to="/dashboard">Dashboard</NavLink>
+              <NavLink to="/group">Group</NavLink>
+            </>
+          ) : (
+            <>
+              <NavLink to="/">Login</NavLink>
+              <NavLink to="/register">Register</NavLink>
+            </>
+          )}
+        </nav>
+      </header>
 
-            <Routes>
-              <Route path="/" element={<Login onLogin={() => setIsLoggedIn(true)} />} />
-              <Route path="/register" element={<Register onLogin={() => setIsLoggedIn(true)} />} />
-              <Route path="/dashboard" element={isLoggedIn ? <Dashboard /> : <Navigate to="/" />} />
-              <Route path="/group" element={isLoggedIn ? <Group /> : <Navigate to="/" />} />
+      <Routes>
+        <Route path="/" element={<Login onLogin={() => setIsLoggedIn(true)} />} />
+        <Route path="/register" element={<Register onLogin={() => setIsLoggedIn(true)} />} />
+        <Route path="/dashboard" element={isLoggedIn ? <Dashboard /> : <Navigate to="/" />} />
+        <Route path="/group" element={isLoggedIn ? <Group /> : <Navigate to="/" />} />
 
-            </Routes>
+      </Routes>
 
-            <footer>
-              <p>Made by Jinho Lee</p>
-              <a href="https://github.com/eungalchy/startup">GitHub</a>
-            </footer>
-          </BrowserRouter>
-        );
-      }
+      <footer>
+        <p>Made by Jinho Lee</p>
+        <p>web programming 260</p>
+        <a href="https://github.com/eungalchy/startup">GitHub</a>
+      </footer>
+    </BrowserRouter>
+  );
+}
 export default App;

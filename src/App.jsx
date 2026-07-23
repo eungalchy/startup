@@ -11,7 +11,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('username'));
 
   async function handleLogout() {
-    await fetch('/api/logout', { method: 'DELETE' });
+    await fetch('/api/auth/logout', { method: 'DELETE' });
     localStorage.removeItem('username');
     setIsLoggedIn(false);
   }

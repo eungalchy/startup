@@ -1,4 +1,4 @@
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb');
 const config = require('./dbConfig.json');
 
 const url = `mongodb+srv://${config.userName}:${config.password}@${config.hostname}`;
@@ -46,7 +46,6 @@ async function getExpenses(username) {
 }
 
 async function deleteExpense(id) {
-  const { ObjectId } = require('mongodb');
   await expenseCollection.deleteOne({ _id: new ObjectId(id) });
 }
 

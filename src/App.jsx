@@ -10,7 +10,8 @@ import { useState } from "react";
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('username'));
 
-  function handleLogout() {
+  async function handleLogout() {
+    await fetch('/api/logout', { method: 'DELETE' });
     localStorage.removeItem('username');
     setIsLoggedIn(false);
   }

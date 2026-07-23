@@ -2,20 +2,23 @@ import { useState, useEffect } from 'react';
 
 export function Dashboard() {
   const username = localStorage.getItem('username') || 'User';
-  const [expenses, setExpenses] = useState(() => {
-    const saved = localStorage.getItem('expenses');
-    return saved ? JSON.parse(saved) : [];
-});
+  const [expenses, setExpenses] = useState([]);
   const [exchangeRate, setExchangeRate] = useState('loading...');
   const [liveUpdate, setLiveUpdate] = useState('Waiting for group activities...');
   const [newCategory, setNewCategory] = useState('');
   const [newAmount, setNewAmount] = useState('');
 
   useEffect(() => {
-    // Mock exchange rate - will be replaced with API call
+    // Load expenses from server
+    fetch('/api/expenses')
+      .then(res => res.json())
+      .then(data => setExpenses(data))
+      .catch(() => setExpenses([]));
+
+    // Mock exchange rate
     setExchangeRate('1,380');
 
-    // Mock WebSocket - will be replaced with real WebSocket
+    // Mock WebSocket
     const interval = setInterval(() => {
       const users = ['Alice', 'Bob', 'Charlie'];
       const randomUser = users[Math.floor(Math.random() * users.length)];
@@ -25,16 +28,28 @@ export function Dashboard() {
     return () => clearInterval(interval);
   }, []);
 
-  function addExpense(e) {
+  async function addExpense(e) {
     e.preventDefault();
     if (newCategory && newAmount) {
       const today = new Date().toISOString().split('T')[0];
-      const newExpense = [...expenses, { category: newCategory, amount: `$${newAmount}`, date: today }];
-      setExpenses(newExpense);
-      localStorage.setItem('expenses', JSON.stringify(newExpense));
-      setNewCategory('');
-      setNewAmount('');
+      const expense = { category: newCategory, amount: `$${newAmount}`, date: today };
+      const response = await fetch('/api/expenses', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(expense),
+      });
+      if (response.ok) {
+        const saved = await response.json();
+        setExpenses([...expenses, saved]);
+        setNewCategory('');
+        setNewAmount('');
+      }
     }
+  }
+
+  async function deleteExpense(id) {
+    await fetch(`/api/expenses/${id}`, { method: 'DELETE' });
+    setExpenses(expenses.filter(e => e._id !== id));
   }
 
   return (
@@ -55,22 +70,17 @@ export function Dashboard() {
             </tr>
           </thead>
           <tbody>
-            {expenses.map((expense, index) => (
-              <tr key={index}>
+            {expenses.map((expense) => (
+              <tr key={expense._id}>
                 <td>{expense.category}</td>
                 <td>{expense.amount}</td>
                 <td>{expense.date}</td>
                 <td>
-                  <button className="btn btn-danger" onClick={() => {
-                    const updatedExpenses = expenses.filter((_, i) => i !== index);
-                    setExpenses(updatedExpenses);
-                    localStorage.setItem('expenses', JSON.stringify(updatedExpenses));
-                  }}>Delete</button>
+                  <button className="btn btn-danger" onClick={() => deleteExpense(expense._id)}>Delete</button>
                 </td>
               </tr>
             ))}
           </tbody>
-
         </table>
         <p><strong>Total: ${expenses.reduce((sum, expense) => sum + parseFloat(expense.amount.slice(1)), 0).toFixed(2)}</strong></p>
       </div>

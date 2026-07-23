@@ -57,10 +57,15 @@ const verifyAuth = async (req, res, next) => {
 };
 
 apiRouter.get('/exchange-rate', async (req, res) => {
-  const apiKey = process.env.EXCHANGE_RATE_API_KEY || '2d3d35b3f10129118e8e28a0';
-  const response = await fetch(`https://v6.exchangerate-api.com/v6/${apiKey}/latest/USD`);
-  const data = await response.json();
-  res.json({ rate: data.conversion_rates.KRW });
+  try {
+    const apiKey = process.env.EXCHANGE_RATE_API_KEY;
+    const response = await fetch(`https://v6.exchangerate-api.com/v6/${apiKey}/latest/USD`);
+    if (!response.ok) throw new Error('API request failed');
+    const data = await response.json();
+    res.json({ rate: data.conversion_rates.KRW });
+  } catch (err) {
+    res.status(503).json({ rate: 1380 });
+  }
 });
 
 apiRouter.get('/expenses', verifyAuth, async (req, res) => {

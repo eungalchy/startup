@@ -5,10 +5,22 @@ import { Group } from "./group/Group";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { Register } from "./register/Register";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('username'));
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  useEffect(() => {
+    fetch('/api/user/me')
+      .then(res => {
+        if (res.ok) {
+          setIsLoggedIn(true);
+        } else {
+          localStorage.removeItem('username');
+          setIsLoggedIn(false);
+        }
+      })
+      .catch(() => setIsLoggedIn(false));
+      }, []);
 
   async function handleLogout() {
     await fetch('/api/auth/logout', { method: 'DELETE' });

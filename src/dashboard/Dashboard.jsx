@@ -34,7 +34,7 @@ export function Dashboard() {
     e.preventDefault();
     if (newCategory && newAmount) {
       const today = new Date().toISOString().split('T')[0];
-      const expense = { category: newCategory, amount: `$${newAmount}`, date: today };
+      const expense = { category: newCategory, amount: parseFloat(newAmount), date: today };
       const response = await fetch('/api/expenses', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -75,7 +75,7 @@ export function Dashboard() {
             {expenses.map((expense) => (
               <tr key={expense._id}>
                 <td>{expense.category}</td>
-                <td>{expense.amount}</td>
+                <td>{new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(expense.amount)}</td>
                 <td>{expense.date}</td>
                 <td>
                   <button className="btn btn-danger" onClick={() => deleteExpense(expense._id)}>Delete</button>
@@ -84,7 +84,7 @@ export function Dashboard() {
             ))}
           </tbody>
         </table>
-        <p><strong>Total: ${expenses.reduce((sum, expense) => sum + parseFloat(expense.amount.slice(1)), 0).toFixed(2)}</strong></p>
+        <p><strong>Total: {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(expenses.reduce((sum, expense) => sum + expense.amount, 0))}</strong></p>
       </div>
 
       <div className="card">

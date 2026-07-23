@@ -79,6 +79,10 @@ apiRouter.post('/expenses', verifyAuth, async (req, res) => {
   res.send(expense);
 });
 
+apiRouter.get('/user/me', verifyAuth, async (req, res) => {
+  res.json({ username: req.user.username });
+});
+
 apiRouter.delete('/expenses/:id', verifyAuth, async (req, res) => {
   await DB.deleteExpense(req.params.id);
   res.status(204).end();

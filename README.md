@@ -121,22 +121,22 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] I completed the prerequisites for this deliverable (Simon deployed, GitHub link, Git commits)
-- [ ] **Node.js/Express HTTP service** - I did not complete this part of the deliverable.
-- [ ] **Static middleware for frontend** - I did not complete this part of the deliverable.
-- [ ] **Calls to third party endpoints** - I did not complete this part of the deliverable.
-- [ ] **Backend service endpoints** - I did not complete this part of the deliverable.
-- [ ] **Frontend calls service endpoints** - I did not complete this part of the deliverable.
-- [ ] **Supports registration, login, logout, and restricted endpoint** - I did not complete this part of the deliverable.
-- [ ] **Uses BCrypt to hash passwords** - I did not complete this part of the deliverable.
+- [x] I completed the prerequisites for this deliverable (Simon deployed, GitHub link, Git commits)
+- [x] **Node.js/Express HTTP service** - created backend server
+- [x] **Static middleware for frontend** - serving react build from public folder
+- [x] **Calls to third party endpoints** - mock exchange rate
+- [x] **Backend service endpoints** - endpoints for auth and expenses
+- [x] **Frontend calls service endpoints** - all call backend
+- [x] **Supports registration, login, logout, and restricted endpoint** - auth implemented
+- [x] **Uses BCrypt to hash passwords** - this used for password hashing
 
 ## 🚀 DB deliverable
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] I completed the prerequisites for this deliverable (Simon deployed, GitHub link, Git commits)
-- [ ] **Stores data in MongoDB** - I did not complete this part of the deliverable.
-- [ ] **Stores credentials in MongoDB** - I did not complete this part of the deliverable.
+- [x] I completed the prerequisites for this deliverable (Simon deployed, GitHub link, Git commits)
+- [x] **Stores data in MongoDB** - expenses are stored and retrieved from mongodb
+- [x] **Stores credentials in MongoDB** - registration and login credentials stored in mongodb with bcrypt password hashing
 
 ## 🚀 WebSocket deliverable
 

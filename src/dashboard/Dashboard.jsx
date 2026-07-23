@@ -15,10 +15,10 @@ export function Dashboard() {
       .then(data => setExpenses(data))
       .catch(() => setExpenses([]));
 
-    
-    fetch('https://v6.exchangerate-api.com/v6/2d3d35b3f10129118e8e28a0/latest/USD')
-  .then(res => res.json())
-  .then(data => setExchangeRate(data.conversion_rates.KRW.toLocaleString()));
+
+    fetch('/api/exchange-rate')
+      .then(res => res.json())
+      .then(data => setExchangeRate(data.rate.toLocaleString()));
 
     // Mock WebSocket
     const interval = setInterval(() => {

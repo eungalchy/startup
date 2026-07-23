@@ -45,8 +45,8 @@ async function getExpenses(username) {
   return expenseCollection.find({ username }).toArray();
 }
 
-async function deleteExpense(id) {
-  await expenseCollection.deleteOne({ _id: new ObjectId(id) });
+async function deleteExpense(id, username) {
+  await expenseCollection.deleteOne({ _id: new ObjectId(id), username });
 }
 
 module.exports = {

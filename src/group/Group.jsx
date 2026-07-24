@@ -49,7 +49,6 @@ export function Group() {
 
   return (
     <main className="container">
-      <h1>Group Expenses</h1>
 
       <div className="card">
         <h2>Group Expenses</h2>

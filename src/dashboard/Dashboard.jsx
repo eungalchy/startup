@@ -77,7 +77,6 @@ export function Dashboard() {
 
   return (
     <main className="container">
-      <h1>Dashboard</h1>
       <img src="spender_logo.png" alt="Spender Logo" />
       <p>Welcome, <span>{username}</span>!</p>
 

@@ -180,6 +180,9 @@ td, th {
     text-align: center;
 }
 
+nav a.active {
+    background-color: #3949AB;
+}
 
 /* if there's no code in app.jsx(that changes nav button),
    then you have to add the following code.

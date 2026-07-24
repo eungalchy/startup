@@ -136,6 +136,20 @@ img {
     font-style: italic;
 }
 
+.card .card {
+    border: 1px solid #e0e0e0;
+}
+
+.card .card input {
+    background-color: white;
+    width: auto;
+}
+
+.card .card button {
+    width: auto;
+    padding: 0.4rem 0.8rem;
+}
+
 /* if there's no code in app.jsx(that changes nav button),
    then you have to add the following code.
 /* nav button {

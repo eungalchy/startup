@@ -28,7 +28,9 @@ export function Group() {
 
   function splitBill(expense) {
     const members = expenseMembers[expense._id] || [];
-    if (members.length === 0) return;
+    if (members.length === 0) {
+      setSplitResults({ ...splitResults, [expense._id]: [''] });
+    }
     const perPerson = (expense.amount / members.length).toFixed(2);
     const results = members.map(m => `${m}: $${perPerson}`);
     setSplitResults({ ...splitResults, [expense._id]: results });

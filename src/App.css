@@ -138,16 +138,35 @@ img {
 
 .card .card {
     border: 1px solid #e0e0e0;
+    position: relative;
 }
 
 .card .card input {
     background-color: white;
     width: auto;
+    color: #333;
 }
 
 .card .card button {
     width: auto;
     padding: 0.4rem 0.8rem;
+}
+
+.card .card .btn-sm {
+    padding: 0.1rem 0.4rem;
+    font-size: 0.75rem;
+}
+
+.delete-top-right {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background-color: #e53935;
+    color: white;
+    border: none;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
 /* if there's no code in app.jsx(that changes nav button),

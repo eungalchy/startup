@@ -79,7 +79,7 @@ export function Group() {
               )}
 
               <button className="btn btn-primary mt-2" onClick={() => splitBill(e)}>Split Bill</button>
-              <button className="btn btn-danger mt-2 ms-2" onClick={() => deleteGroupExpense(e._id)}>Delete</button>
+              <button className="btn btn-danger mt-2 ms-2" onClick={() => deleteGroupExpense(e._id)}>x</button>
 
               {splitResults[e._id] && (
                 <div className="mt-2">

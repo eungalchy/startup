@@ -61,9 +61,11 @@ apiRouter.get('/exchange-rate', async (req, res) => {
     const response = await fetch('https://api.frankfurter.app/latest?from=USD&to=KRW');
     if (!response.ok) throw new Error('API request failed');
     const data = await response.json();
+    await DB.saveExchangeRate(data.rates.KRW);
     res.json({ rate: data.rates.KRW });
   } catch (err) {
-    res.status(503).json({ rate: 1380 });
+    const lastRate = await DB.getLastExchangeRate();
+    res.json({ rate: lastRate });
   }
 });
 
@@ -80,6 +82,22 @@ apiRouter.post('/expenses', verifyAuth, async (req, res) => {
 
 apiRouter.get('/user/me', verifyAuth, async (req, res) => {
   res.json({ username: req.user.username });
+});
+
+apiRouter.get('/group-expenses', verifyAuth, async (req, res) => {
+  const expenses = await DB.getGroupExpenses();
+  res.send(expenses);
+});
+
+apiRouter.post('/group-expenses', verifyAuth, async (req, res) => {
+  const expense = { ...req.body, sharedBy: req.user.username };
+  await DB.addGroupExpense(expense);
+  res.send(expense);
+});
+
+apiRouter.delete('/group-expenses/:id', verifyAuth, async (req, res) => {
+  await DB.deleteGroupExpense(req.params.id);
+  res.status(204).end();
 });
 
 apiRouter.delete('/expenses/:id', verifyAuth, async (req, res) => {

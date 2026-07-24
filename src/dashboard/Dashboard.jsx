@@ -46,13 +46,14 @@ export function Dashboard() {
 
   async function deleteExpense(id) {
     await fetch(`/api/expenses/${id}`, { method: 'DELETE' });
+    await fetch(`/api/group-expenses/${id}`, { method: 'DELETE' });
     const deletedExpense = expenses.find(e => e._id === id);
     setExpenses(expenses.filter(e => e._id !== id));
 
-    // groupExpenses에서도 삭제
-    const groupExpenses = JSON.parse(localStorage.getItem('groupExpenses') || '[]');
-    const updatedGroup = groupExpenses.filter(e => e._id !== id);
-    localStorage.setItem('groupExpenses', JSON.stringify(updatedGroup));
+    // // groupExpenses에서도 삭제
+    // const groupExpenses = JSON.parse(localStorage.getItem('groupExpenses') || '[]');
+    // const updatedGroup = groupExpenses.filter(e => e._id !== id);
+    // localStorage.setItem('groupExpenses', JSON.stringify(updatedGroup));
 
     // recentUpdates에서도 삭제
     if (deletedExpense) {
@@ -67,14 +68,16 @@ export function Dashboard() {
     localStorage.setItem('expenseMembers', JSON.stringify(expenseMembers));
   }
 
-  function shareToGroup(expense) {
-    const groupExpenses = JSON.parse(localStorage.getItem('groupExpenses') || '[]');
-    const shared = { ...expense, sharedBy: username };
-    const updated = [...groupExpenses, shared];
-    localStorage.setItem('groupExpenses', JSON.stringify(updated));
-    alert(`${expense.category} shared to group!`);
+  async function shareToGroup(expense) {
+    const response = await fetch('/api/group-expenses', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(expense),
+    });
+    if (response.ok) {
+      alert(`${expense.category} shared to group!`);
+    }
   }
-
   return (
     <main className="container">
       <img src="spender_logo.png" alt="Spender Logo" />

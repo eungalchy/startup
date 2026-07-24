@@ -4,6 +4,9 @@ const client = new MongoClient(url);
 const db = client.db('spender');
 const userCollection = db.collection('users');
 const expenseCollection = db.collection('expenses');
+const groupExpenseCollection = db.collection('groupExpenses');
+const cacheCollection = db.collection('cache');
+
 
 (async function connectDB() {
   try {
@@ -47,6 +50,31 @@ async function deleteExpense(id, username) {
   await expenseCollection.deleteOne({ _id: new ObjectId(id), username });
 }
 
+async function addGroupExpense(expense) {
+  await groupExpenseCollection.insertOne(expense);
+}
+
+async function getGroupExpenses() {
+  return groupExpenseCollection.find({}).toArray();
+}
+
+async function deleteGroupExpense(id) {
+  await groupExpenseCollection.deleteOne({ _id: new ObjectId(id) });
+}
+
+async function saveExchangeRate(rate) {
+  await cacheCollection.updateOne(
+    { key: 'exchangeRate' },
+    { $set: { key: 'exchangeRate', rate, updatedAt: new Date() } },
+    { upsert: true }
+  );
+}
+
+async function getLastExchangeRate() {
+  const cached = await cacheCollection.findOne({ key: 'exchangeRate' });
+  return cached ? cached.rate : 1380;
+}
+
 module.exports = {
   addUser,
   getUser,
@@ -56,4 +84,9 @@ module.exports = {
   addExpense,
   getExpenses,
   deleteExpense,
+  addGroupExpense,
+  getGroupExpenses,
+  deleteGroupExpense,
+  saveExchangeRate,
+  getLastExchangeRate
 };

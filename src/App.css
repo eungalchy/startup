@@ -169,6 +169,13 @@ img {
     cursor: pointer;
 }
 
+.member-delete-btn {
+    padding: 0 0.3rem;
+    font-size: 0.7rem;
+    line-height: 1.2;
+    border-radius: 3px;
+}
+
 /* if there's no code in app.jsx(that changes nav button),
    then you have to add the following code.
 /* nav button {

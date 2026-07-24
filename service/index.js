@@ -58,11 +58,10 @@ const verifyAuth = async (req, res, next) => {
 
 apiRouter.get('/exchange-rate', async (req, res) => {
   try {
-    const apiKey = process.env.EXCHANGE_RATE_API_KEY;
-    const response = await fetch(`https://v6.exchangerate-api.com/v6/${apiKey}/latest/USD`);
+    const response = await fetch('https://api.frankfurter.app/latest?from=USD&to=KRW');
     if (!response.ok) throw new Error('API request failed');
     const data = await response.json();
-    res.json({ rate: data.conversion_rates.KRW });
+    res.json({ rate: data.rates.KRW });
   } catch (err) {
     res.status(503).json({ rate: 1380 });
   }

@@ -4,7 +4,6 @@ export function Dashboard() {
   const username = localStorage.getItem('username') || 'User';
   const [expenses, setExpenses] = useState([]);
   const [exchangeRate, setExchangeRate] = useState('loading...');
-  const [liveUpdate, setLiveUpdate] = useState('Waiting for group activities...');
   const [newCategory, setNewCategory] = useState('');
   const [newAmount, setNewAmount] = useState('');
 
@@ -20,14 +19,6 @@ export function Dashboard() {
       .then(res => res.json())
       .then(data => setExchangeRate(data.rate.toLocaleString()));
 
-    // Mock WebSocket
-    const interval = setInterval(() => {
-      const users = ['Alice', 'Bob', 'Charlie'];
-      const randomUser = users[Math.floor(Math.random() * users.length)];
-      setLiveUpdate(`${randomUser} added a new expense!`);
-    }, 5000);
-
-    return () => clearInterval(interval);
   }, []);
 
   async function addExpense(e) {
@@ -53,28 +44,28 @@ export function Dashboard() {
     }
   }
 
-async function deleteExpense(id) {
-  await fetch(`/api/expenses/${id}`, { method: 'DELETE' });
-  const deletedExpense = expenses.find(e => e._id === id);
-  setExpenses(expenses.filter(e => e._id !== id));
-  
-  // groupExpenses에서도 삭제
-  const groupExpenses = JSON.parse(localStorage.getItem('groupExpenses') || '[]');
-  const updatedGroup = groupExpenses.filter(e => e._id !== id);
-  localStorage.setItem('groupExpenses', JSON.stringify(updatedGroup));
+  async function deleteExpense(id) {
+    await fetch(`/api/expenses/${id}`, { method: 'DELETE' });
+    const deletedExpense = expenses.find(e => e._id === id);
+    setExpenses(expenses.filter(e => e._id !== id));
 
-  // recentUpdates에서도 삭제
-  if (deletedExpense) {
-    const updates = JSON.parse(localStorage.getItem('recentUpdates') || '[]');
-    const updatedUpdates = updates.filter(u => !u.includes(deletedExpense.category));
-    localStorage.setItem('recentUpdates', JSON.stringify(updatedUpdates));
+    // groupExpenses에서도 삭제
+    const groupExpenses = JSON.parse(localStorage.getItem('groupExpenses') || '[]');
+    const updatedGroup = groupExpenses.filter(e => e._id !== id);
+    localStorage.setItem('groupExpenses', JSON.stringify(updatedGroup));
+
+    // recentUpdates에서도 삭제
+    if (deletedExpense) {
+      const updates = JSON.parse(localStorage.getItem('recentUpdates') || '[]');
+      const updatedUpdates = updates.filter(u => !u.includes(deletedExpense.category));
+      localStorage.setItem('recentUpdates', JSON.stringify(updatedUpdates));
+    }
+
+    // expenseMembers에서도 삭제
+    const expenseMembers = JSON.parse(localStorage.getItem('expenseMembers') || '{}');
+    delete expenseMembers[id];
+    localStorage.setItem('expenseMembers', JSON.stringify(expenseMembers));
   }
-
-  // expenseMembers에서도 삭제
-  const expenseMembers = JSON.parse(localStorage.getItem('expenseMembers') || '{}');
-  delete expenseMembers[id];
-  localStorage.setItem('expenseMembers', JSON.stringify(expenseMembers));
-}
 
   function shareToGroup(expense) {
     const groupExpenses = JSON.parse(localStorage.getItem('groupExpenses') || '[]');
@@ -139,8 +130,15 @@ async function deleteExpense(id) {
       </div>
 
       <div className="card">
-        <h3>Exchange Rates</h3>
-        <p>1 USD = <span>{exchangeRate}</span> KRW</p>
+        <h3>Recent Activity</h3>
+        {JSON.parse(localStorage.getItem('recentUpdates') || '[]').length === 0 ?
+          <p>No recent activity.</p> :
+          <ul>
+            {JSON.parse(localStorage.getItem('recentUpdates') || '[]').map((update, i) => (
+              <li key={i}>{update}</li>
+            ))}
+          </ul>
+        }
       </div>
 
       <div className="card">

@@ -112,7 +112,7 @@ tr:hover {
 }
 
 img {
-    max-width: 150px;
+    max-width: 100%;
     height: auto;
     display:block;
     margin: 0 auto;
@@ -181,7 +181,7 @@ td, th {
 }
 
 nav a.active {
-    background-color: #3949AB;
+    background-color: #283593;
 }
 
 /* if there's no code in app.jsx(that changes nav button),

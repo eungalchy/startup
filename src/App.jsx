@@ -9,6 +9,8 @@ import { useState, useEffect } from "react";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     fetch('/api/user/me')
       .then(res => {
@@ -19,14 +21,20 @@ function App() {
           setIsLoggedIn(false);
         }
       })
-      .catch(() => setIsLoggedIn(false));
-      }, []);
+      .catch(() => setIsLoggedIn(false))
+      .finally(() => setIsLoading(false));
+  }, []);
 
   async function handleLogout() {
     await fetch('/api/auth/logout', { method: 'DELETE' });
     localStorage.removeItem('username');
     setIsLoggedIn(false);
   }
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <BrowserRouter>
       <header>

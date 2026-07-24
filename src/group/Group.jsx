@@ -8,8 +8,11 @@ export function Group() {
   const [splitResults, setSplitResults] = useState({});
 
   useEffect(() => {
-    const savedExpenses = JSON.parse(localStorage.getItem('groupExpenses') || '[]');
-    setGroupExpenses(savedExpenses);
+    fetch('/api/group-expenses')
+      .then(res => res.json())
+      .then(data => setGroupExpenses(data))
+      .catch(() => setGroupExpenses([]));
+
     const savedUpdates = JSON.parse(localStorage.getItem('recentUpdates') || '[]');
     setLiveUpdate(savedUpdates);
     const savedMembers = JSON.parse(localStorage.getItem('expenseMembers') || '{}');
@@ -36,10 +39,9 @@ export function Group() {
     setSplitResults({ ...splitResults, [expense._id]: results });
   }
 
-  function deleteGroupExpense(id) {
-    const updated = groupExpenses.filter(e => e._id !== id);
-    setGroupExpenses(updated);
-    localStorage.setItem('groupExpenses', JSON.stringify(updated));
+  async function deleteGroupExpense(id) {
+    await fetch(`/api/group-expenses/${id}`, { method: 'DELETE' });
+    setGroupExpenses(groupExpenses.filter(e => e._id !== id));
 
     const expMembers = { ...expenseMembers };
     delete expMembers[id];

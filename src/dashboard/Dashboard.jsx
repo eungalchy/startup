@@ -130,7 +130,10 @@ export function Dashboard() {
           <button type="submit" className="btn btn-primary">+ Add Expense</button>
         </form>
       </div>
-
+      <div className="card">
+        <h3>Exchange Rates</h3>
+        <p>1 USD = <span>{exchangeRate}</span> KRW</p>
+      </div>
       <div className="card">
         <h3>Recent Activity</h3>
         {JSON.parse(localStorage.getItem('recentUpdates') || '[]').length === 0 ?

@@ -53,10 +53,28 @@ export function Dashboard() {
     }
   }
 
-  async function deleteExpense(id) {
-    await fetch(`/api/expenses/${id}`, { method: 'DELETE' });
-    setExpenses(expenses.filter(e => e._id !== id));
+async function deleteExpense(id) {
+  await fetch(`/api/expenses/${id}`, { method: 'DELETE' });
+  const deletedExpense = expenses.find(e => e._id === id);
+  setExpenses(expenses.filter(e => e._id !== id));
+  
+  // groupExpenses에서도 삭제
+  const groupExpenses = JSON.parse(localStorage.getItem('groupExpenses') || '[]');
+  const updatedGroup = groupExpenses.filter(e => e._id !== id);
+  localStorage.setItem('groupExpenses', JSON.stringify(updatedGroup));
+
+  // recentUpdates에서도 삭제
+  if (deletedExpense) {
+    const updates = JSON.parse(localStorage.getItem('recentUpdates') || '[]');
+    const updatedUpdates = updates.filter(u => !u.includes(deletedExpense.category));
+    localStorage.setItem('recentUpdates', JSON.stringify(updatedUpdates));
   }
+
+  // expenseMembers에서도 삭제
+  const expenseMembers = JSON.parse(localStorage.getItem('expenseMembers') || '{}');
+  delete expenseMembers[id];
+  localStorage.setItem('expenseMembers', JSON.stringify(expenseMembers));
+}
 
   function shareToGroup(expense) {
     const groupExpenses = JSON.parse(localStorage.getItem('groupExpenses') || '[]');

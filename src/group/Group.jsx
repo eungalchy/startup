@@ -40,7 +40,7 @@ export function Group() {
     const updated = groupExpenses.filter(e => e._id !== id);
     setGroupExpenses(updated);
     localStorage.setItem('groupExpenses', JSON.stringify(updated));
-    
+
     const expMembers = { ...expenseMembers };
     delete expMembers[id];
     setExpenseMembers(expMembers);
@@ -55,9 +55,9 @@ export function Group() {
         <h2>Group Expenses</h2>
         {groupExpenses.length === 0 ? <p>No expenses shared yet. Share from Dashboard!</p> :
           groupExpenses.map((e) => (
-            <div key={e._id} className="card mt-2" style={{position: 'relative'}}>
+            <div key={e._id} className="card mt-2" style={{ position: 'relative' }}>
               <p><strong>{e.category}</strong> - {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(e.amount)} on {e.date} (by {e.sharedBy})</p>
-              
+
               <div className="mt-2">
                 <input
                   type="text"
@@ -71,17 +71,22 @@ export function Group() {
               {expenseMembers[e._id] && expenseMembers[e._id].length > 0 && (
                 <ul className="mt-2">
                   {expenseMembers[e._id].map((m, i) => <li key={i}>{m}
-                    <button className="btn btn-danger ms-2" style={{padding: '0 0.3rem', fontSize: '0.7rem', lineHeight: '1.2'}} onClick={() => {
+                    <button className="btn btn-danger ms-2" style={{ padding: '0 0.3rem', fontSize: '0.7rem', lineHeight: '1.2' }} onClick={() => {
                       const updated = { ...expenseMembers, [e._id]: expenseMembers[e._id].filter((_, idx) => idx !== i) };
                       setExpenseMembers(updated);
                       localStorage.setItem('expenseMembers', JSON.stringify(updated));
+                      if (updated[e._id].length === 0) {
+                        const newSplit = { ...splitResults };
+                        delete newSplit[e._id];
+                        setSplitResults(newSplit);
+                      }
                     }}>x</button>
                   </li>)}
                 </ul>
               )}
 
               <button className="btn btn-primary mt-2" onClick={() => splitBill(e)}>Split Bill</button>
-              <button className="btn btn-danger" style={{position: 'absolute', top: '0.5rem', right: '0.5rem', padding: '0.1rem 0.4rem', fontSize: '0.75rem', lineHeight: '1'}} onClick={() => deleteGroupExpense(e._id)}>x</button>
+              <button className="btn btn-danger" style={{ position: 'absolute', top: '0.5rem', right: '0.5rem', padding: '0.1rem 0.4rem', fontSize: '0.75rem', lineHeight: '1' }} onClick={() => deleteGroupExpense(e._id)}>x</button>
 
               {splitResults[e._id] && (
                 <div className="mt-2">

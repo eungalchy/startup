@@ -43,6 +43,10 @@ export function Dashboard() {
       if (response.ok) {
         const saved = await response.json();
         setExpenses([...expenses, saved]);
+        const updates = JSON.parse(localStorage.getItem('recentUpdates') || '[]');
+        const newUpdate = `Added ${saved.category} - $${saved.amount} on ${saved.date}`;
+        const updatedList = [newUpdate, ...updates].slice(0, 5);
+        localStorage.setItem('recentUpdates', JSON.stringify(updatedList));
         setNewCategory('');
         setNewAmount('');
       }
@@ -52,6 +56,14 @@ export function Dashboard() {
   async function deleteExpense(id) {
     await fetch(`/api/expenses/${id}`, { method: 'DELETE' });
     setExpenses(expenses.filter(e => e._id !== id));
+  }
+
+  function shareToGroup(expense) {
+    const groupExpenses = JSON.parse(localStorage.getItem('groupExpenses') || '[]');
+    const shared = { ...expense, sharedBy: username };
+    const updated = [...groupExpenses, shared];
+    localStorage.setItem('groupExpenses', JSON.stringify(updated));
+    alert(`${expense.category} shared to group!`);
   }
 
   return (
@@ -79,7 +91,9 @@ export function Dashboard() {
                 <td>{expense.date}</td>
                 <td>
                   <button className="btn btn-danger" onClick={() => deleteExpense(expense._id)}>Delete</button>
+                  <button className="btn btn-secondary ms-2" onClick={() => shareToGroup(expense)}>Share</button>
                 </td>
+
               </tr>
             ))}
           </tbody>

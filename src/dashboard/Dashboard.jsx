@@ -141,10 +141,6 @@ export function Dashboard() {
         }
       </div>
 
-      <div className="card">
-        <h3>Updates</h3>
-        <p>{liveUpdate}</p>
-      </div>
     </main>
   );
 }

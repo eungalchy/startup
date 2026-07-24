@@ -1,7 +1,5 @@
 const { MongoClient, ObjectId } = require('mongodb');
-const config = require('./dbConfig.json');
-
-const url = `mongodb+srv://${config.userName}:${config.password}@${config.hostname}`;
+const url = `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOSTNAME}`;
 const client = new MongoClient(url);
 const db = client.db('spender');
 const userCollection = db.collection('users');

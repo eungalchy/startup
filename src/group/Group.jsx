@@ -34,6 +34,17 @@ export function Group() {
     setSplitResults({ ...splitResults, [expense._id]: results });
   }
 
+  function deleteGroupExpense(id) {
+    const updated = groupExpenses.filter(e => e._id !== id);
+    setGroupExpenses(updated);
+    localStorage.setItem('groupExpenses', JSON.stringify(updated));
+    
+    const expMembers = { ...expenseMembers };
+    delete expMembers[id];
+    setExpenseMembers(expMembers);
+    localStorage.setItem('expenseMembers', JSON.stringify(expMembers));
+  }
+
   return (
     <main className="container">
       <h1>Group Expenses</h1>
@@ -57,11 +68,18 @@ export function Group() {
 
               {expenseMembers[e._id] && expenseMembers[e._id].length > 0 && (
                 <ul className="mt-2">
-                  {expenseMembers[e._id].map((m, i) => <li key={i}>{m}</li>)}
+                  {expenseMembers[e._id].map((m, i) => <li key={i}>{m}
+                    <button className="btn btn-danger ms-2" onClick={() => {
+                      const updated = { ...expenseMembers, [e._id]: expenseMembers[e._id].filter((_, idx) => idx !== i) };
+                      setExpenseMembers(updated);
+                      localStorage.setItem('expenseMembers', JSON.stringify(updated));
+                    }}>x</button>
+                  </li>)}
                 </ul>
               )}
 
               <button className="btn btn-primary mt-2" onClick={() => splitBill(e)}>Split Bill</button>
+              <button className="btn btn-danger mt-2 ms-2" onClick={() => deleteGroupExpense(e._id)}>Delete</button>
 
               {splitResults[e._id] && (
                 <div className="mt-2">

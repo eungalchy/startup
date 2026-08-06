@@ -1,11 +1,10 @@
-import { useState, useEffect } from 'react';
-
 export function Dashboard() {
   const username = localStorage.getItem('username') || 'User';
   const [expenses, setExpenses] = useState([]);
   const [exchangeRate, setExchangeRate] = useState('loading...');
   const [newCategory, setNewCategory] = useState('');
   const [newAmount, setNewAmount] = useState('');
+  const [socket, setSocket] = useState(null);
 
   useEffect(() => {
     // Load expenses from server
@@ -18,6 +17,19 @@ export function Dashboard() {
     fetch('/api/exchange-rate')
       .then(res => res.json())
       .then(data => setExchangeRate(data.rate.toLocaleString()));
+
+    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    const newSocket = new WebSocket(`${protocol}//${window.location.host}/ws`);
+    setSocket(newSocket);
+    newSocket.onmessage = (event) => {
+      const msg = JSON.parse(event.data);
+      if (msg.type === 'expense') {
+        const updates = JSON.parse(localStorage.getItem('recentUpdates') || '[]');
+        const updatedList = [`${msg.username} added ${msg.category}`, ...updates].slice(0, 5);
+        localStorage.setItem('recentUpdates', JSON.stringify(updatedList));
+      }
+    };
+    return () => newSocket.close();
 
   }, []);
 
@@ -38,6 +50,9 @@ export function Dashboard() {
         const newUpdate = `Added ${saved.category} - $${saved.amount} on ${saved.date}`;
         const updatedList = [newUpdate, ...updates].slice(0, 5);
         localStorage.setItem('recentUpdates', JSON.stringify(updatedList));
+        if (socket && socket.readyState === WebSocket.OPEN) {
+          socket.send(JSON.stringify({ type: 'expense', username, category: newCategory }));
+        }
         setNewCategory('');
         setNewAmount('');
       }

@@ -5,6 +5,9 @@ export function Dashboard() {
   const [newCategory, setNewCategory] = useState('');
   const [newAmount, setNewAmount] = useState('');
   const [socket, setSocket] = useState(null);
+  const [recentUpdates, setRecentUpdates] = useState(
+    JSON.parse(localStorage.getItem('recentUpdates') || '[]')
+  );
 
   useEffect(() => {
     // Load expenses from server
@@ -24,9 +27,11 @@ export function Dashboard() {
     newSocket.onmessage = (event) => {
       const msg = JSON.parse(event.data);
       if (msg.type === 'expense') {
-        const updates = JSON.parse(localStorage.getItem('recentUpdates') || '[]');
-        const updatedList = [`${msg.username} added ${msg.category}`, ...updates].slice(0, 5);
-        localStorage.setItem('recentUpdates', JSON.stringify(updatedList));
+        setRecentUpdates(prev => {
+          const updated = [`${msg.username} added ${msg.category}`, ...prev].slice(0, 5);
+          localStorage.setItem('recentUpdates', JSON.stringify(updated));
+          return updated;
+        });
       }
     };
     return () => newSocket.close();
@@ -46,10 +51,12 @@ export function Dashboard() {
       if (response.ok) {
         const saved = await response.json();
         setExpenses([...expenses, saved]);
-        const updates = JSON.parse(localStorage.getItem('recentUpdates') || '[]');
         const newUpdate = `Added ${saved.category} - $${saved.amount} on ${saved.date}`;
-        const updatedList = [newUpdate, ...updates].slice(0, 5);
-        localStorage.setItem('recentUpdates', JSON.stringify(updatedList));
+        setRecentUpdates(prev => {
+          const updated = [newUpdate, ...prev].slice(0, 5);
+          localStorage.setItem('recentUpdates', JSON.stringify(updated));
+          return updated;
+        });
         if (socket && socket.readyState === WebSocket.OPEN) {
           socket.send(JSON.stringify({ type: 'expense', username, category: newCategory }));
         }
@@ -151,10 +158,10 @@ export function Dashboard() {
       </div>
       <div className="card">
         <h3>Recent Activity</h3>
-        {JSON.parse(localStorage.getItem('recentUpdates') || '[]').length === 0 ?
+        {recentUpdates.length === 0 ?
           <p>No recent activity.</p> :
           <ul>
-            {JSON.parse(localStorage.getItem('recentUpdates') || '[]').map((update, i) => (
+            {recentUpdates.map((update, i) => (
               <li key={i}>{update}</li>
             ))}
           </ul>

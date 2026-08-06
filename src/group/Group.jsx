@@ -15,6 +15,15 @@ export function Group() {
 
     const savedUpdates = JSON.parse(localStorage.getItem('recentUpdates') || '[]');
     setLiveUpdate(savedUpdates);
+    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    const ws = new WebSocket(`${protocol}//${window.location.host}/ws`);
+    ws.onmessage = (event) => {
+      const msg = JSON.parse(event.data);
+      if (msg.message || msg.type === 'expense') {
+        setLiveUpdate(prev => [`${msg.username || 'Someone'} added ${msg.category || 'an expense'}`, ...prev].slice(0, 5));
+      }
+    };
+    return () => ws.close();
     const savedMembers = JSON.parse(localStorage.getItem('expenseMembers') || '{}');
     setExpenseMembers(savedMembers);
   }, []);

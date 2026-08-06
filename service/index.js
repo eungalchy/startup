@@ -143,14 +143,18 @@ const wss = new WebSocketServer({ server: httpService });
 
 wss.on('connection', (ws) => {
   console.log('WebSocket connected');
-  
+
   ws.on('message', (data) => {
-    const msg = JSON.parse(data);
-    wss.clients.forEach(client => {
-      if (client.readyState === ws.OPEN) {
-        client.send(JSON.stringify(msg));
-      }
-    });
+    try {
+      const msg = JSON.parse(data);
+      wss.clients.forEach(client => {
+        if (client.readyState === ws.OPEN) {
+          client.send(JSON.stringify(msg));
+        }
+      });
+    } catch (err) {
+      console.error('WebSocket message error:', err);
+    }
   });
 
   ws.on('close', () => {

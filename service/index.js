@@ -1,3 +1,5 @@
+const { WebSocketServer } = require('ws');
+
 const cookieParser = require('cookie-parser');
 const bcrypt = require('bcryptjs');
 const express = require('express');
@@ -135,4 +137,27 @@ function setAuthCookie(res, authToken) {
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
+});
+
+const httpService = app.listen(port, () => {
+  console.log(`Listening on port ${port}`);
+});
+
+const wss = new WebSocketServer({ server: httpService });
+
+wss.on('connection', (ws) => {
+  console.log('WebSocket connected');
+  
+  ws.on('message', (data) => {
+    const msg = JSON.parse(data);
+    wss.clients.forEach(client => {
+      if (client.readyState === ws.OPEN) {
+        client.send(JSON.stringify(msg));
+      }
+    });
+  });
+
+  ws.on('close', () => {
+    console.log('WebSocket disconnected');
+  });
 });

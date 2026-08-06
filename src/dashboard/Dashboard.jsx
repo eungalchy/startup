@@ -26,7 +26,7 @@ export function Dashboard() {
     setSocket(newSocket);
     newSocket.onmessage = (event) => {
       const msg = JSON.parse(event.data);
-      if (msg.type === 'expense') {
+      if (msg.type === 'expense' && msg.username !== username) {
         setRecentUpdates(prev => {
           const updated = [`${msg.username} added ${msg.category}`, ...prev].slice(0, 5);
           localStorage.setItem('recentUpdates', JSON.stringify(updated));

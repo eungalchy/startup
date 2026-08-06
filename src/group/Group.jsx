@@ -15,6 +15,8 @@ export function Group() {
 
     const savedUpdates = JSON.parse(localStorage.getItem('recentUpdates') || '[]');
     setLiveUpdate(savedUpdates);
+    const savedMembers = JSON.parse(localStorage.getItem('expenseMembers') || '{}');
+    setExpenseMembers(savedMembers);
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
     const ws = new WebSocket(`${protocol}//${window.location.host}/ws`);
     ws.onmessage = (event) => {
@@ -24,8 +26,6 @@ export function Group() {
       }
     };
     return () => ws.close();
-    const savedMembers = JSON.parse(localStorage.getItem('expenseMembers') || '{}');
-    setExpenseMembers(savedMembers);
   }, []);
 
   function addMember(expenseId) {

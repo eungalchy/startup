@@ -1,3 +1,5 @@
+import { useState, useEffect } from 'react';
+
 export function Dashboard() {
   const username = localStorage.getItem('username') || 'User';
   const [expenses, setExpenses] = useState([]);
